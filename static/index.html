@@ -1,0 +1,68 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>ClipMaster AI — Editor inteligente</title>
+<style>
+:root{--bg:#0b0d16;--panel:#141827;--line:#293149;--muted:#aab2c8;--purple:#8b5cf6;--cyan:#38bdf8}
+*{box-sizing:border-box}body{margin:0;background:radial-gradient(ellipse at 80% 0,#24204b 0,transparent 38%),var(--bg);color:#f8fafc;font:15px Inter,system-ui,Arial}
+header{height:74px;border-bottom:1px solid var(--line);display:flex;align-items:center;justify-content:space-between;padding:0 max(5vw,20px)}
+.brand{font-weight:800;font-size:21px;letter-spacing:-.6px}.brand span{color:#a78bfa}.pill{border:1px solid #355b52;color:#86efac;border-radius:30px;padding:7px 12px;font-size:12px}
+main{max-width:1050px;margin:48px auto;padding:0 20px}.hero{text-align:center;margin-bottom:34px}.eyebrow{color:#b6a2ff;font-weight:700;letter-spacing:2px;font-size:11px}.hero h1{font-size:clamp(32px,6vw,54px);line-height:1.05;margin:14px 0}.hero p{color:var(--muted);max-width:620px;margin:auto;line-height:1.6}
+.layout{display:grid;grid-template-columns:1.2fr .8fr;gap:18px}.panel{background:linear-gradient(145deg,#171d30,#111625);border:1px solid var(--line);border-radius:20px;padding:24px;box-shadow:0 18px 55px #0003}
+h2{font-size:18px;margin:0 0 18px}.drop{border:1.5px dashed #6555a2;background:#191a32;border-radius:15px;padding:34px 18px;text-align:center;cursor:pointer;transition:.2s}.drop:hover{border-color:#b7a5ff;background:#211d40}.drop strong{display:block;margin:12px 0 5px}.muted{color:var(--muted);font-size:13px}.file{margin-top:12px;color:#c4b5fd;font-size:13px;overflow-wrap:anywhere}
+label{display:block;color:#d5d9e7;font-size:13px;margin:18px 0 8px}select,input{width:100%;background:#0d1220;border:1px solid #343d56;border-radius:10px;padding:12px;color:white;font:inherit}
+.row{display:grid;grid-template-columns:1fr 1fr;gap:12px}.check{display:flex;gap:9px;align-items:center;color:#d5d9e7;margin:17px 0}.check input{width:auto}
+button{width:100%;border:0;border-radius:12px;background:linear-gradient(100deg,#7c3aed,#4f46e5);color:white;font-weight:750;font-size:15px;padding:15px;cursor:pointer;margin-top:18px}button:disabled{opacity:.5;cursor:wait}
+.features{display:grid;gap:12px}.feature{display:flex;gap:12px;align-items:center;padding:13px;background:#0e1423;border:1px solid #252e45;border-radius:12px}.ico{width:37px;height:37px;border-radius:10px;background:#28234a;display:grid;place-items:center;font-size:18px}.feature b{display:block;font-size:13px}.feature small{color:var(--muted)}
+#status{margin-top:15px;color:#c4b5fd;font-size:13px;line-height:1.5}#results{margin-top:22px;display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:12px}.clip{background:#0e1423;border:1px solid var(--line);padding:14px;border-radius:14px}.clip a{color:#c4b5fd;text-decoration:none;font-weight:700}.clip p{color:var(--muted);font-size:12px}
+footer{text-align:center;color:#727d98;font-size:12px;padding:35px 20px}
+@media(max-width:760px){main{margin:30px auto}.layout{grid-template-columns:1fr}.panel{padding:18px}.hero h1{font-size:36px}}
+</style>
+</head>
+<body>
+<header><div class="brand">✦ ClipMaster <span>AI</span></div><div class="pill">● Procesamiento propio</div></header>
+<main>
+<section class="hero"><div class="eyebrow">VIDEO LONG-FORM → SHORT-FORM</div><h1>Tus mejores momentos.<br><span style="color:#a78bfa">En clips listos para publicar.</span></h1><p>Sube un video largo y crea clips verticales para TikTok, Reels y YouTube Shorts desde un solo lugar.</p></section>
+<div class="layout">
+<section class="panel">
+<h2>① Sube tu video</h2>
+<form id="form">
+<div class="drop" id="drop"><div style="font-size:30px">☁️</div><strong>Arrastra tu video aquí</strong><span class="muted">o toca para seleccionar · MP4, MOV, MKV, WEBM</span><div class="file" id="filename"></div><input id="video" type="file" accept="video/*" hidden required></div>
+<div class="row"><div><label>Duración de cada clip</label><select name="clip_seconds"><option value="20">20 segundos</option><option value="30">30 segundos</option><option value="35" selected>35 segundos</option><option value="45">45 segundos</option><option value="60">60 segundos</option><option value="90">90 segundos</option></select></div><div><label>Número de clips</label><select name="number_clips"><option>3</option><option selected>5</option><option>10</option><option>15</option><option>20</option></select></div></div>
+<label>Idioma de subtítulos</label><select name="language"><option value="es" selected>Español</option><option value="en">Inglés</option><option value="pt">Portugués</option></select>
+<label class="check"><input type="checkbox" name="captions" checked> Generar subtítulos automáticos (requiere IA instalada)</label>
+<button id="submit" type="submit">✦ Crear mis clips</button>
+<div id="status" role="status"></div>
+</form>
+</section>
+<aside class="panel"><h2>② Tu editor incluye</h2><div class="features">
+<div class="feature"><div class="ico">✂️</div><div><b>Cortes automáticos</b><small>Clips distribuidos por el video</small></div></div>
+<div class="feature"><div class="ico">📱</div><div><b>Formato vertical 9:16</b><small>1080 × 1920 para redes sociales</small></div></div>
+<div class="feature"><div class="ico">💬</div><div><b>Subtítulos con IA</b><small>Transcripción local con Whisper</small></div></div>
+<div class="feature"><div class="ico">⬇️</div><div><b>Descarga MP4</b><small>Archivos listos para publicar</small></div></div>
+</div><p class="muted" style="line-height:1.6;margin-top:18px">La primera versión crea clips automáticamente. La detección avanzada de momentos virales, seguimiento de rostros y edición manual se pueden añadir en siguientes versiones.</p></aside>
+</div>
+<div id="results"></div>
+</main>
+<footer>ClipMaster AI · Proyecto independiente · Procesa tus videos en tu propio servidor</footer>
+<script>
+const fileInput=document.querySelector('#video'),drop=document.querySelector('#drop'),filename=document.querySelector('#filename'),form=document.querySelector('#form'),statusBox=document.querySelector('#status'),button=document.querySelector('#submit'),results=document.querySelector('#results');
+drop.addEventListener('click',()=>fileInput.click());
+drop.addEventListener('dragover',e=>{e.preventDefault();drop.style.borderColor='#c4b5fd'});
+drop.addEventListener('dragleave',()=>drop.style.borderColor='#6555a2');
+drop.addEventListener('drop',e=>{e.preventDefault();if(e.dataTransfer.files[0]){fileInput.files=e.dataTransfer.files;showFile()}});
+fileInput.addEventListener('change',showFile);
+function showFile(){filename.textContent=fileInput.files[0]?.name||''}
+form.addEventListener('submit',async e=>{
+ e.preventDefault();if(!fileInput.files[0])return;
+ const data=new FormData(form);data.set('video',fileInput.files[0]);data.set('captions',form.querySelector('[name=captions]').checked?'true':'false');
+ button.disabled=true;button.textContent='Procesando video…';statusBox.textContent='Subiendo y procesando. Los videos largos pueden tardar varios minutos.';results.innerHTML='';
+ try{const res=await fetch('/api/create',{method:'POST',body:data});const json=await res.json();if(!res.ok)throw new Error(json.detail||'Error al procesar');
+ statusBox.textContent=json.message+(json.captions_available?' Subtítulos incluidos.':'');
+ json.clips.forEach(c=>{const el=document.createElement('div');el.className='clip';el.innerHTML=`<b>${c.name}</b><p>Inicio: ${c.start}s · Duración: ${c.duration}s</p><a href="${c.url}" download>⬇ Descargar MP4</a>`;results.appendChild(el)});
+ }catch(err){statusBox.textContent='Error: '+err.message}
+ finally{button.disabled=false;button.textContent='✦ Crear mis clips'}
+});
+</script>
+</body></html>
